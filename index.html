@@ -177,7 +177,7 @@
       .logo::before, .logo::after { display: none; }
     }
 
-    /* Esconde o vídeo e mostra a landing em telas grandes (>1024px) */
+    
     @media (min-width: 1025px) {
       .intro {
         display: none !important;
@@ -195,7 +195,7 @@
   </style>
 </head>
 <body>
-  <!-- Vídeo de introdução -->
+
   <div class="intro">
     <video autoplay muted playsinline id="intro-video">
       <source src="video.mp4" type="video/mp4" />
@@ -204,12 +204,12 @@
     <button class="skip-btn" id="skip-btn">Pular vídeo</button>
   </div>
 
-  <!-- Landing page -->
+ 
   <div id="landing" class="section">
     <div class="logo">DIAS <span class="barberia">BARBEARIA</span></div>
     <p class="slogan">O melhor estilo você encontra aqui!</p>
 
-    <!-- Ordem correta dos botões -->
+
     <a href="https://online.maapp.com.br/diasbarbearia" target="_blank" class="btn">📅 Agende seu horário</a>
     <a href="https://share.google/pw3ki56Utt94QNP2S" target="blank" class="btn">⭐ Avalie-nos no Google</a>
     <a href="https://instagram.com/dias.barbearia" target="_blank" class="btn">📸 Instagram</a>
@@ -240,16 +240,17 @@
       }, 50);
     }
 
-    // Celulares: vídeo normal
+   
     if (window.innerWidth <= 1024) {
       video.addEventListener("ended", mostrarLanding);
       skipBtn.addEventListener("click", mostrarLanding);
     } else {
-      // Tablets/Desktops: pula direto
+     
       mostrarLanding();
     }
   </script>
 </body>
 </html>
+
 
 
