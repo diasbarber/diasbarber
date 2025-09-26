@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dias Barbearia - O melhor estilo você encontra aqui!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #071823;
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .section {
+      max-width: 600px;
+      width: 100%;
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .intro {
+      position: fixed;
+      inset: 0;
+      background: black;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .intro video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .skip-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background-color: rgba(212,159,36,0.9);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      color: #071823;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    .logo {
+      font-family: 'Merriweather', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: #fff;
+      position: relative;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+      display: inline-block;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .logo.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .logo span.barberia {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #d49f24;
+      margin-top: -0.5rem;
+      letter-spacing: 0.2em;
+    }
+
+    .logo::before,
+    .logo::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 60px;
+      height: 2px;
+      background-color: #d49f24;
+    }
+    .logo::before {
+      right: 100%;
+      margin-right: 40px;
+    }
+    .logo::after {
+      left: 100%;
+      margin-left: 40px;
+    }
+
+    .slogan {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-top: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .slogan.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn {
+      margin-top: 20px;
+      background-color: #d49f24;
+      border: none;
+      padding: 15px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #071823;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .btn.show {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .btn:hover {
+      background-color: #b3861d;
+    }
+
+    @media (max-width: 480px) {
+      .logo { font-size: 3rem; }
+      .logo::before, .logo::after { width: 40px; margin: 0 20px; }
+      body { padding: 10px; }
+      .btn { font-size: 1rem; padding: 12px; }
+    }
+
+    @media (max-width: 360px) {
+      .logo::before, .logo::after { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="intro">
+  <video autoplay muted playsinline controls id="intro-video">
+    <source src="video.mp4" type="video/mp4" />
+    Seu navegador não suporta vídeos.
+  </video>
+  <button class="skip-btn" id="skip-btn">Pular vídeo</button>
+</div>
+
+
+  <div id="landing" class="section">
+    <div class="logo">DIAS <span class="barberia">BARBEARIA</span></div>
+    <p class="slogan">O melhor estilo você encontra aqui!</p>
+
+    <!-- Ordem correta dos botões -->
+    <a href="https://seusite.com/agendamento" target="_blank" class="btn">📅 Agende seu horário</a>
+    <a href="https://g.page/seuperfil" target="_blank" class="btn">⭐ Avalie-nos no Google</a>
+    <a href="https://instagram.com/dias.barbearia_" target="_blank" class="btn">📸 Instagram</a>
+    <a href="5511943295766" target="_blank" class="btn">💬 WhatsApp</a>
+    <a href="https://maps.app.goo.gl/EVES6p7QpubGoVrf9" target="_blank" class="btn">📍 Localização</a>
+    
+  </div>
+
+  <script>
+    const video = document.getElementById("intro-video");
+    const intro = document.querySelector(".intro");
+    const landing = document.getElementById("landing");
+    const skipBtn = document.getElementById("skip-btn");
+    const logo = document.querySelector(".logo");
+    const slogan = document.querySelector(".slogan");
+    const buttons = document.querySelectorAll(".btn");
+
+    function mostrarLanding() {
+      intro.style.display = "none";
+      landing.classList.add("active");
+
+      setTimeout(() => {
+        landing.classList.add("show");
+        setTimeout(() => logo.classList.add("show"), 200);
+        setTimeout(() => slogan.classList.add("show"), 600);
+
+        buttons.forEach((btn, index) => {
+          setTimeout(() => btn.classList.add("show"), 1000 + index * 300);
+        });
+      }, 50);
+    }
+
+    video.addEventListener("ended", mostrarLanding);
+    skipBtn.addEventListener("click", mostrarLanding);
+  </script>
+</body>
+</html>
