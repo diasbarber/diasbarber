@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dias Barbearia - O melhor estilo você encontra aqui!</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Montserrat', sans-serif;
@@ -31,15 +27,8 @@
       transform: translateY(20px);
       transition: opacity 1s ease, transform 1s ease;
     }
-
-    .section.active {
-      display: block;
-    }
-
-    .section.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .section.active { display: block; }
+    .section.show { opacity: 1; transform: translateY(0); }
 
     .intro {
       position: fixed;
@@ -70,11 +59,7 @@
       transform: scale(0.8);
       transition: opacity 1s ease, transform 1s ease;
     }
-
-    .logo.show {
-      opacity: 1;
-      transform: scale(1);
-    }
+    .logo.show { opacity: 1; transform: scale(1); }
 
     .logo span.barberia {
       display: block;
@@ -86,8 +71,7 @@
       letter-spacing: 0.2em;
     }
 
-    .logo::before,
-    .logo::after {
+    .logo::before, .logo::after {
       content: "";
       position: absolute;
       top: 50%;
@@ -95,14 +79,8 @@
       height: 2px;
       background-color: #d49f24;
     }
-    .logo::before {
-      right: 100%;
-      margin-right: 40px;
-    }
-    .logo::after {
-      left: 100%;
-      margin-left: 40px;
-    }
+    .logo::before { right: 100%; margin-right: 40px; }
+    .logo::after { left: 100%; margin-left: 40px; }
 
     .slogan {
       font-weight: 600;
@@ -112,11 +90,7 @@
       transform: translateY(20px);
       transition: opacity 1s ease, transform 1s ease;
     }
-
-    .slogan.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .slogan.show { opacity: 1; transform: translateY(0); }
 
     .btn {
       margin-top: 20px;
@@ -141,16 +115,12 @@
       opacity: 0;
       transform: translateY(20px);
     }
-
     .btn.show {
       opacity: 1;
       transform: translateY(0);
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
-
-    .btn:hover {
-      background-color: #b3861d;
-    }
+    .btn:hover { background-color: #b3861d; }
 
     @media (max-width: 480px) {
       .logo { font-size: 3rem; }
@@ -158,7 +128,6 @@
       body { padding: 10px; }
       .btn { font-size: 1rem; padding: 12px; }
     }
-
     @media (max-width: 360px) {
       .logo::before, .logo::after { display: none; }
     }
@@ -166,7 +135,7 @@
 </head>
 <body oncontextmenu="return false;">
 
-  <div class="intro">
+  <div class="intro" id="intro">
     <video autoplay muted playsinline id="intro-video">
       <source src="video.mp4" type="video/mp4" />
       Seu navegador não suporta vídeos.
@@ -185,10 +154,7 @@
   </div>
 
   <script>
-    document.addEventListener("contextmenu", function(e){
-      e.preventDefault(); 
-    }, false);
-
+    document.addEventListener("contextmenu", e => e.preventDefault());
     document.onkeydown = function(e) {
       if (e.keyCode == 123) return false;
       if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false;
@@ -196,30 +162,35 @@
     };
 
     (function(){
-      const v = document.getElementById("intro-video");
-      const i = document.querySelector(".intro");
-      const l = document.getElementById("landing");
-      const lo = document.querySelector(".logo");
-      const sl = document.querySelector(".slogan");
-      const b = document.querySelectorAll(".btn");
+      const video = document.getElementById("intro-video");
+      const intro = document.getElementById("intro");
+      const landing = document.getElementById("landing");
+      const logo = document.querySelector(".logo");
+      const slogan = document.querySelector(".slogan");
+      const buttons = document.querySelectorAll(".btn");
 
       function mostrarLanding() {
-        i.style.display = "none";
-        l.classList.add("active");
-
+        intro.style.display = "none";
+        landing.classList.add("active");
         setTimeout(() => {
-          l.classList.add("show");
-          setTimeout(() => lo.classList.add("show"), 200);
-          setTimeout(() => sl.classList.add("show"), 600);
-          b.forEach((e, x) => {
-            setTimeout(() => e.classList.add("show"), 1000 + x * 300);
+          landing.classList.add("show");
+          setTimeout(() => logo.classList.add("show"), 200);
+          setTimeout(() => slogan.classList.add("show"), 600);
+          buttons.forEach((btn, i) => {
+            setTimeout(() => btn.classList.add("show"), 1000 + i * 300);
           });
         }, 50);
       }
 
-      // 🔹 Só mostra depois que o vídeo terminar
-      v.addEventListener("ended", mostrarLanding);
-    })(); 
+     
+      if (window.innerWidth <= 1024) {
+        video.addEventListener("ended", mostrarLanding);
+      } 
+   
+      else {
+        mostrarLanding();
+      }
+    })();
   </script>
 </body>
 </html>
