@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dias Barbearia - O melhor estilo você encontra aqui!</title>
   <style>
+   
     * {
       margin: 0;
       padding: 0;
@@ -194,7 +195,7 @@
     }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
   <div class="intro">
     <video autoplay muted playsinline id="intro-video">
@@ -204,7 +205,7 @@
     <button class="skip-btn" id="skip-btn">Pular vídeo</button>
   </div>
 
- 
+  
   <div id="landing" class="section">
     <div class="logo">DIAS <span class="barberia">BARBEARIA</span></div>
     <p class="slogan">O melhor estilo você encontra aqui!</p>
@@ -218,40 +219,54 @@
   </div>
 
   <script>
-    const video = document.getElementById("intro-video");
-    const intro = document.querySelector(".intro");
-    const landing = document.getElementById("landing");
-    const skipBtn = document.getElementById("skip-btn");
-    const logo = document.querySelector(".logo");
-    const slogan = document.querySelector(".slogan");
-    const buttons = document.querySelectorAll(".btn");
+  
+    document.addEventListener("contextmenu", function(e){
+      e.preventDefault(); 
+    }, false);
 
-    function mostrarLanding() {
-      intro.style.display = "none";
-      landing.classList.add("active");
+    document.onkeydown = function(e) {
 
-      setTimeout(() => {
-        landing.classList.add("show");
-        setTimeout(() => logo.classList.add("show"), 200);
-        setTimeout(() => slogan.classList.add("show"), 600);
-        buttons.forEach((btn, index) => {
-          setTimeout(() => btn.classList.add("show"), 1000 + index * 300);
-        });
-      }, 50);
-    }
-
+      if (e.keyCode == 123) return false;
+  
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false;
    
-    if (window.innerWidth <= 1024) {
-      video.addEventListener("ended", mostrarLanding);
-      skipBtn.addEventListener("click", mostrarLanding);
-    } else {
-     
-      mostrarLanding();
-    }
+      if (e.ctrlKey && e.keyCode == 85) return false;
+    };
+
+
+
+ 
+    (function(){
+      const v = document.getElementById("intro-video");
+      const i = document.querySelector(".intro");
+      const l = document.getElementById("landing");
+      const sB = document.getElementById("skip-btn");
+      const lo = document.querySelector(".logo");
+      const sl = document.querySelector(".slogan");
+      const b = document.querySelectorAll(".btn");
+
+      function m() {
+        i.style.display = "none";
+        l.classList.add("active");
+
+        setTimeout(() => {
+          l.classList.add("show");
+          setTimeout(() => lo.classList.add("show"), 200);
+          setTimeout(() => sl.classList.add("show"), 600);
+          b.forEach((e, x) => {
+            setTimeout(() => e.classList.add("show"), 1000 + x * 300);
+          });
+        }, 50);
+      }
+
+      if (window.innerWidth <= 1024) {
+        v.addEventListener("ended", m);
+        sB.addEventListener("click", m);
+      } else {
+        m();
+      }
+    })(); 
+ 
   </script>
 </body>
 </html>
-
-
-
-
