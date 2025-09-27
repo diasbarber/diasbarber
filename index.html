@@ -6,6 +6,8 @@
   <title>Dias Barbearia - O melhor estilo você encontra aqui!</title>
   <style>
    
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Montserrat:wght@400;600;700&display=swap');
+
     * {
       margin: 0;
       padding: 0;
@@ -45,40 +47,47 @@
     .intro {
       position: fixed;
       inset: 0;
-      background: #071823; /* Mantendo o fundo da barbearia */
+      background: #071823; /* Dark background to match body */
       z-index: 9999;
       display: flex;
-      flex-direction: column; /* Para centralizar o texto */
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: opacity 1s ease; /* Adiciona transição para o fade-out */
+      transition: opacity 1s ease; /* For smooth fade out */
     }
-    
-    /* Novo estilo para o texto de boas-vindas */
-    .intro-message {
-        font-family: 'Merriweather', serif; /* Mantendo o estilo do logo */
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #d49f24; /* Cor dourada para destaque */
-        opacity: 0;
-        transform: scale(0.9);
-        transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-    }
 
-    .intro.fade-out .intro-message {
-        opacity: 0;
-        transform: scale(1.1);
-    }
+    /* NEW INTRO STYLES */
+    .intro-text {
+      font-family: 'Merriweather', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #fff;
+      overflow: hidden; /* Hide text before animation */
+      white-space: nowrap;
+      border-right: 2px solid #d49f24; /* Cursor effect */
+      animation: typing 2.5s steps(30, end) forwards,
+                blink-caret 0.75s step-end infinite;
+      max-width: 0;
+    }
 
-    .intro-message.show {
-        opacity: 1;
-        transform: scale(1);
-    }
-    /* Fim do novo estilo */
+    .intro.fade-out {
+      opacity: 0;
+      pointer-events: none; /* Prevent interaction while fading */
+    }
+
+    @keyframes typing {
+      from { max-width: 0 }
+      to { max-width: 100% } /* Animates the width of the text */
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #d49f24; }
+    }
+    /* END NEW INTRO STYLES */
 
     .skip-btn {
-      /* Ocultamos o botão de pular, pois não há vídeo */
-      display: none;
+      display: none; /* Hide the skip button as the animation is fast */
     }
 
     .logo {
@@ -179,37 +188,32 @@
     @media (max-width: 480px) {
       .logo { font-size: 3rem; }
       .logo::before, .logo::after { width: 40px; margin: 0 20px; }
-      .intro-message { font-size: 1.8rem; } /* Ajusta o tamanho da mensagem */
       body { padding: 10px; }
       .btn { font-size: 1rem; padding: 12px; }
+      .intro-text { font-size: 1.5rem; }
     }
 
     @media (max-width: 360px) {
       .logo::before, .logo::after { display: none; }
     }
 
-    
+    /* The original media query for desktop is now slightly changed: */
     @media (min-width: 1025px) {
       .intro {
-        display: none !important;
-        opacity: 0 !important;
+        /* Keep the intro for a moment on desktop to display the animation */
+        display: flex;
       }
-      #landing {
-        display: block !important;
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-      }
-      .logo, .slogan, .btn {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
+      /* Remove explicit 'display: none' and let the JS handle the transition */
+      #landing, .logo, .slogan, .btn {
+        transition: none !important; /* Prevent initial load animation clash */
       }
     }
   </style>
 </head>
 <body oncontextmenu="return false;">
 
-  <div class="intro" id="intro-screen">
-    <div class="intro-message" id="intro-message">Seja bem-vindo à Barbearia Dias</div>
+  <div class="intro" id="intro-section">
+        <div class="intro-text">Seja bem-vindo à Dias Barbearia</div>
   </div>
 
   
@@ -227,71 +231,55 @@
 
   <script>
   
+    // Prevent right-click, F12, Ctrl+Shift+I/J/C, and Ctrl+U
     document.addEventListener("contextmenu", function(e){
       e.preventDefault(); 
     }, false);
 
     document.onkeydown = function(e) {
-
       if (e.keyCode == 123) return false;
-  
       if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false;
-   
       if (e.ctrlKey && e.keyCode == 85) return false;
     };
 
 
-
  
     (function(){
-      const i = document.getElementById("intro-screen");
+      // const v = document.getElementById("intro-video"); // Removed video
+      const i = document.getElementById("intro-section"); // Changed to use ID
       const l = document.getElementById("landing");
-      const m_e = document.getElementById("intro-message"); // Mensagem
+      // const sB = document.getElementById("skip-btn"); // Removed skip button
       const lo = document.querySelector(".logo");
       const sl = document.querySelector(".slogan");
       const b = document.querySelectorAll(".btn");
+      const introText = document.querySelector(".intro-text");
+
+      // Duration of the CSS 'typing' animation + a slight delay
+      const animationDuration = 3500; 
 
       function m() {
-          // Inicia a animação de fade-out da introdução
-          i.style.opacity = '0'; 
-          i.addEventListener('transitionend', function handler() {
-            i.style.display = "none";
-            i.removeEventListener('transitionend', handler); // Limpa o evento
-            l.classList.add("active");
+        // Start fade out of intro screen
+        i.classList.add("fade-out");
 
-            // Inicia a animação da landing page
-            setTimeout(() => {
-              l.classList.add("show");
-              setTimeout(() => lo.classList.add("show"), 200);
-              setTimeout(() => sl.classList.add("show"), 600);
-              b.forEach((e, x) => {
-                setTimeout(() => e.classList.add("show"), 1000 + x * 300);
-              });
-            }, 50);
+        setTimeout(() => {
+          i.style.display = "none";
+          l.classList.add("active");
 
-          });
+          setTimeout(() => {
+            l.classList.add("show");
+            setTimeout(() => lo.classList.add("show"), 200);
+            setTimeout(() => sl.classList.add("show"), 600);
+            b.forEach((e, x) => {
+              setTimeout(() => e.classList.add("show"), 1000 + x * 300);
+            });
+          }, 50);
+        }, 1000); // 1000ms is the opacity transition time on .intro.fade-out
       }
 
-      function startIntro() {
-        // Garante que a introdução só ocorra em telas menores, como no CSS original
-        if (window.innerWidth <= 1024) {
-            // Mostra a mensagem de boas-vindas
-            setTimeout(() => m_e.classList.add("show"), 50);
+      // Start the main transition function 'm' after the typing animation finishes
+      setTimeout(m, animationDuration);
 
-            // Tempo de exibição da mensagem (ajuste o valor em milissegundos)
-            const displayTime = 2000; // Exemplo: 2 segundos (2000ms)
-
-            // Após o tempo de exibição, chama a função para a tela principal
-            setTimeout(m, displayTime);
-        } else {
-            // Se for tela grande, vai direto para o site principal (como no CSS)
-            m();
-        }
-      }
-
-      startIntro();
-
-    })(); 
+    })();
  
   </script>
 </body>
