@@ -4,10 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dias Barbearia - O melhor estilo você encontra aqui!</title>
+  
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
    
-    @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Montserrat:wght@400;600;700&display=swap');
-
+    /* CSS Reset */
     * {
       margin: 0;
       padding: 0;
@@ -16,7 +18,7 @@
 
     body {
       font-family: 'Montserrat', sans-serif;
-      background-color: #071823;
+      background-color: #071823; /* Fundo Escuro */
       color: #fff;
       min-height: 100vh;
       padding: 20px;
@@ -26,6 +28,7 @@
       text-align: center;
     }
 
+    /* TRANSITION E DISPLAY DO CONTEÚDO PRINCIPAL */
     .section {
       max-width: 600px;
       width: 100%;
@@ -44,52 +47,50 @@
       transform: translateY(0);
     }
 
+    /* INTRO (ANIMAÇÃO DE BOAS VINDAS) */
     .intro {
       position: fixed;
       inset: 0;
-      background: #071823; /* Dark background to match body */
+      background: #071823;
       z-index: 9999;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: opacity 1s ease; /* For smooth fade out */
+      transition: opacity 1s ease;
     }
 
-    /* NEW INTRO STYLES */
     .intro-text {
       font-family: 'Merriweather', serif;
       font-size: 2.5rem;
       font-weight: 700;
       color: #fff;
-      overflow: hidden; /* Hide text before animation */
+      overflow: hidden; 
       white-space: nowrap;
-      border-right: 2px solid #d49f24; /* Cursor effect */
+      border-right: 2px solid #d49f24;
       animation: typing 2.5s steps(30, end) forwards,
                 blink-caret 0.75s step-end infinite;
       max-width: 0;
+      /* Garantir que o texto não quebre em telas pequenas e estrague o efeito */
+      padding-right: 5px; 
     }
 
     .intro.fade-out {
       opacity: 0;
-      pointer-events: none; /* Prevent interaction while fading */
+      pointer-events: none;
     }
 
     @keyframes typing {
       from { max-width: 0 }
-      to { max-width: 100% } /* Animates the width of the text */
+      to { max-width: 100% }
     }
 
     @keyframes blink-caret {
       from, to { border-color: transparent }
       50% { border-color: #d49f24; }
     }
-    /* END NEW INTRO STYLES */
 
-    .skip-btn {
-      display: none; /* Hide the skip button as the animation is fast */
-    }
-
+    /* LOGO E SLOGAN */
     .logo {
       font-family: 'Merriweather', serif;
       font-size: 4rem;
@@ -151,6 +152,7 @@
       transform: translateY(0);
     }
 
+    /* BOTÕES */
     .btn {
       margin-top: 20px;
       background-color: #d49f24;
@@ -185,6 +187,7 @@
       background-color: #b3861d;
     }
 
+    /* MEDIA QUERIES */
     @media (max-width: 480px) {
       .logo { font-size: 3rem; }
       .logo::before, .logo::after { width: 40px; margin: 0 20px; }
@@ -196,24 +199,12 @@
     @media (max-width: 360px) {
       .logo::before, .logo::after { display: none; }
     }
-
-    /* The original media query for desktop is now slightly changed: */
-    @media (min-width: 1025px) {
-      .intro {
-        /* Keep the intro for a moment on desktop to display the animation */
-        display: flex;
-      }
-      /* Remove explicit 'display: none' and let the JS handle the transition */
-      #landing, .logo, .slogan, .btn {
-        transition: none !important; /* Prevent initial load animation clash */
-      }
-    }
   </style>
 </head>
 <body oncontextmenu="return false;">
 
   <div class="intro" id="intro-section">
-        <div class="intro-text">Seja bem-vindo à Dias Barbearia</div>
+    <div class="intro-text">Seja bem-vindo à Dias Barbearia</div>
   </div>
 
   
@@ -231,7 +222,7 @@
 
   <script>
   
-    // Prevent right-click, F12, Ctrl+Shift+I/J/C, and Ctrl+U
+    // Previne F12, Ctrl+Shift+I/J/C, Ctrl+U
     document.addEventListener("contextmenu", function(e){
       e.preventDefault(); 
     }, false);
@@ -245,20 +236,16 @@
 
  
     (function(){
-      // const v = document.getElementById("intro-video"); // Removed video
-      const i = document.getElementById("intro-section"); // Changed to use ID
+      const i = document.getElementById("intro-section");
       const l = document.getElementById("landing");
-      // const sB = document.getElementById("skip-btn"); // Removed skip button
       const lo = document.querySelector(".logo");
       const sl = document.querySelector(".slogan");
       const b = document.querySelectorAll(".btn");
-      const introText = document.querySelector(".intro-text");
 
-      // Duration of the CSS 'typing' animation + a slight delay
+      // Tempo total para a animação de 'typing' (3.5 segundos)
       const animationDuration = 3500; 
 
       function m() {
-        // Start fade out of intro screen
         i.classList.add("fade-out");
 
         setTimeout(() => {
@@ -270,13 +257,14 @@
             setTimeout(() => lo.classList.add("show"), 200);
             setTimeout(() => sl.classList.add("show"), 600);
             b.forEach((e, x) => {
+              // Adiciona um pequeno atraso (300ms) para cada botão aparecer sequencialmente
               setTimeout(() => e.classList.add("show"), 1000 + x * 300);
             });
           }, 50);
-        }, 1000); // 1000ms is the opacity transition time on .intro.fade-out
+        }, 1000); // 1000ms é o tempo de transição de opacidade (fade-out)
       }
 
-      // Start the main transition function 'm' after the typing animation finishes
+      // Inicia a função de transição após o tempo da animação de digitação
       setTimeout(m, animationDuration);
 
     })();
