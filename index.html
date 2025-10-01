@@ -33,17 +33,72 @@
     .intro {
       position: fixed;
       inset: 0;
-      background: black;
+      background: #071823;
       z-index: 9999;
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+    .intro.hide { opacity: 0; pointer-events: none; }
+
+    .intro-logo {
+      font-family: 'Merriweather', serif;
+      font-size: 5rem;
+      font-weight: 700;
+      color: #fff;
+      position: relative;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: logoFadeIn 2s ease forwards;
+    }
+    .intro-logo span.barberia {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #d49f24;
+      margin-top: -0.5rem;
+      letter-spacing: 0.2em;
+      opacity: 0;
+      animation: barberiaFadeIn 1s ease 1s forwards;
     }
 
-    .intro video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .intro-slogan {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: #fff;
+      margin-top: 20px;
+      opacity: 0;
+      animation: sloganFadeIn 1s ease 2s forwards;
+    }
+
+    .intro-logo::before, .intro-logo::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 0;
+      height: 2px;
+      background-color: #d49f24;
+      animation: lineExpand 1s ease 0.5s forwards;
+    }
+    .intro-logo::before { right: 100%; margin-right: 40px; }
+    .intro-logo::after { left: 100%; margin-left: 40px; }
+
+    @keyframes logoFadeIn {
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes barberiaFadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes sloganFadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes lineExpand {
+      to { width: 60px; }
     }
 
     .logo {
@@ -94,63 +149,79 @@
 
     .btn {
       margin-top: 20px;
-      background-color: #d49f24;
+      background: linear-gradient(135deg, #d49f24, #b3861d);
       border: none;
       padding: 15px;
       font-size: 1.1rem;
       font-weight: 600;
       color: #071823;
-      border-radius: 40px;
+      border-radius: 50px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       width: 100%;
       max-width: 300px;
       margin-left: auto;
       margin-right: auto;
       opacity: 0;
       transform: translateY(20px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
     .btn.show {
       opacity: 1;
       transform: translateY(0);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s ease;
     }
-    .btn:hover { background-color: #b3861d; }
+    .btn:hover {
+      background: linear-gradient(135deg, #e6b800, #c9971e);
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    .btn span.icon {
+      display: inline-block;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+    .btn:hover span.icon {
+      transform: rotate(15deg);
+    }
 
     @media (max-width: 480px) {
-      .logo { font-size: 3rem; }
-      .logo::before, .logo::after { width: 40px; margin: 0 20px; }
+      .logo, .intro-logo { font-size: 3rem; }
+      .logo::before, .logo::after, .intro-logo::before, .intro-logo::after { width: 40px; margin: 0 20px; }
       body { padding: 10px; }
-      .btn { font-size: 1rem; padding: 12px; }
+      .btn {
+        font-size: 1rem;
+        padding: 12px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      }
+      .btn span.icon { font-size: 1.1rem; }
+      .intro-logo span.barberia { font-size: 1rem; }
+      .intro-slogan { font-size: 1rem; }
     }
     @media (max-width: 360px) {
-      .logo::before, .logo::after { display: none; }
+      .logo::before, .logo::after, .intro-logo::before, .intro-logo::after { display: none; }
     }
   </style>
 </head>
 <body oncontextmenu="return false;">
-
   <div class="intro" id="intro">
-    <video autoplay muted playsinline id="intro-video">
-      <source src="video.mp4" type="video/mp4" />
-      Seu navegador não suporta vídeos.
-    </video>
+    <div class="intro-logo">DIAS <span class="barberia">BARBEARIA</span></div>
+    <p class="intro-slogan">Bem-vindo ao site Dias Barbearia</p>
   </div>
 
   <div id="landing" class="section">
     <div class="logo">DIAS <span class="barberia">BARBEARIA</span></div>
     <p class="slogan">O melhor estilo você encontra aqui!</p>
-
-    <a href="https://online.maapp.com.br/diasbarbearia" target="_blank" class="btn">📅 Agende seu horário</a>
-    <a href="https://share.google/pw3ki56Utt94QNP2S" target="blank" class="btn">⭐ Avalie-nos no Google</a>
-    <a href="https://www.instagram.com/dias.barbearia_?igsh=MWk2eTI1cGRyemx6dQ==" target="_blank" class="btn">📸 Instagram</a>
-    <a href="https://wa.me/5511943295766" target="_blank" class="btn">💬 WhatsApp</a>
-    <a href="https://maps.app.goo.gl/EVES6p7QpubGoVrf9" target="_blank" class="btn">📍 Localização</a>
+    <a href="https://online.maapp.com.br/diasbarbearia" target="_blank" class="btn"><span class="icon">📅</span> Agende seu horário</a>
+    <a href="https://share.google/pw3ki56Utt94QNP2S" target="_blank" class="btn"><span class="icon">⭐</span> Avalie-nos no Google</a>
+    <a href="https://www.instagram.com/dias.barbearia_?igsh=MWk2eTI1cGRyemx6dQ==" target="_blank" class="btn"><span class="icon">📸</span> Instagram</a>
+    <a href="https://wa.me/5511943295766" target="_blank" class="btn"><span class="icon">💬</span> WhatsApp</a>
+    <a href="https://maps.app.goo.gl/EVES6p7QpubGoVrf9" target="_blank" class="btn"><span class="icon">📍</span> Localização</a>
   </div>
 
   <script>
@@ -161,8 +232,7 @@
       if (e.ctrlKey && e.keyCode == 85) return false;
     };
 
-    (function(){
-      const video = document.getElementById("intro-video");
+    (function() {
       const intro = document.getElementById("intro");
       const landing = document.getElementById("landing");
       const logo = document.querySelector(".logo");
@@ -170,26 +240,22 @@
       const buttons = document.querySelectorAll(".btn");
 
       function mostrarLanding() {
-        intro.style.display = "none";
-        landing.classList.add("active");
+        intro.classList.add("hide");
         setTimeout(() => {
-          landing.classList.add("show");
-          setTimeout(() => logo.classList.add("show"), 200);
-          setTimeout(() => slogan.classList.add("show"), 600);
-          buttons.forEach((btn, i) => {
-            setTimeout(() => btn.classList.add("show"), 1000 + i * 300);
-          });
-        }, 50);
+          intro.style.display = "none";
+          landing.classList.add("active");
+          setTimeout(() => {
+            landing.classList.add("show");
+            setTimeout(() => logo.classList.add("show"), 200);
+            setTimeout(() => slogan.classList.add("show"), 600);
+            buttons.forEach((btn, i) => {
+              setTimeout(() => btn.classList.add("show"), 1000 + i * 300);
+            });
+          }, 50);
+        }, 1000);
       }
 
-     
-      if (window.innerWidth <= 1024) {
-        video.addEventListener("ended", mostrarLanding);
-      } 
-   
-      else {
-        mostrarLanding();
-      }
+      setTimeout(mostrarLanding, 4000);
     })();
   </script>
 </body>
